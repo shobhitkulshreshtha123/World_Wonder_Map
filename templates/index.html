@@ -5,21 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wonders of the World Map</title>
 </head>
-<body style="background-color: #333; color: #FFD700; font-family: Arial, sans-serif;">
-    <h1 style="text-align: center;">Wonders of the World Map</h1>
-    <form action="/select_wonder" method="POST" style="text-align: center; margin-top: 20px;">
+<body>
+    <h1>Wonders of the World Map</h1>
+    <form id="wonder-form">
         <label for="wonder">Select a Wonder:</label>
-        <select id="wonder" name="wonder" style="background-color: #FFD700; color: #333;">
-            {% for wonder in wonders %}
-                <option value="{{ wonder }}">{{ wonder }}</option>
-            {% endfor %}
+        <select id="wonder" name="wonder">
+            <option value="Great Wall of China">Great Wall of China</option>
+            <option value="Petra">Petra</option>
+            <!-- Add other wonders here -->
         </select>
-        <button type="submit" style="background-color: #FFD700; color: #333; border: none; padding: 10px; cursor: pointer;">
-            Show Wonder
-        </button>
+        <button type="submit">Show Wonder</button>
     </form>
-    <div style="text-align: center; margin-top: 20px;">
-        <iframe src="/wonder_map.html" width="800" height="500" style="border: 2px solid #FFD700;"></iframe>
+    <div id="map-container">
+        <iframe id="wonder-map" width="100%" height="600px"></iframe>
     </div>
+
+    <script>
+        document.getElementById('wonder-form').onsubmit = async function(event) {
+            event.preventDefault();
+            const selectedWonder = document.getElementById('wonder').value;
+            const response = await fetch('/select_wonder', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ wonder: selectedWonder })
+            });
+            const data = await response.json();
+            document.getElementById('wonder-map').src = `data:text/html;charset=utf-8,${encodeURIComponent(data.map_html)}`;
+        };
+    </script>
 </body>
 </html>
