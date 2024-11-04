@@ -3,44 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wonders of the World</title>
-    <style>
-        /* Apply color theme */
-        body { background-color: #2e2d2b; color: white; font-family: Arial, sans-serif; text-align: center; }
-        .container { margin-top: 50px; }
-        select, button { padding: 10px; margin: 10px; font-size: 1em; color: #2e2d2b; background-color: #FFD700; border: none; cursor: pointer; }
-        #map-container { width: 80%; height: 500px; margin: auto; margin-top: 30px; border: 2px solid #FFD700; }
-        h1 { color: #FFD700; }
-    </style>
+    <title>Wonders of the World Map</title>
 </head>
-<body>
-    <div class="container">
-        <h1>Wonders of the World Map</h1>
-        <form id="wonder-form">
-            <label for="wonder">Select a Wonder:</label>
-            <select id="wonder" name="wonder">
-                {% for wonder in wonders %}
-                    <option value="{{ wonder }}">{{ wonder }}</option>
-                {% endfor %}
-            </select>
-            <button type="submit">Show Wonder</button>
-        </form>
+<body style="background-color: #333; color: #FFD700; font-family: Arial, sans-serif;">
+    <h1 style="text-align: center;">Wonders of the World Map</h1>
+    <form action="/select_wonder" method="POST" style="text-align: center; margin-top: 20px;">
+        <label for="wonder">Select a Wonder:</label>
+        <select id="wonder" name="wonder" style="background-color: #FFD700; color: #333;">
+            {% for wonder in wonders %}
+                <option value="{{ wonder }}">{{ wonder }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" style="background-color: #FFD700; color: #333; border: none; padding: 10px; cursor: pointer;">
+            Show Wonder
+        </button>
+    </form>
+    <div style="text-align: center; margin-top: 20px;">
+        <iframe src="/wonder_map.html" width="800" height="500" style="border: 2px solid #FFD700;"></iframe>
     </div>
-
-    <div id="map-container">{{ map | safe }}</div>
-
-    <script>
-        document.getElementById('wonder-form').onsubmit = async function(event) {
-            event.preventDefault();
-            let wonder = document.getElementById('wonder').value;
-            let response = await fetch('/select_wonder', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: new URLSearchParams({ wonder: wonder })
-            });
-            let result = await response.json();
-            document.getElementById('map-container').innerHTML = result.map;
-        };
-    </script>
 </body>
 </html>
