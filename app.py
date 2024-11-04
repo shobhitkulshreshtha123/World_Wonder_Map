@@ -11,7 +11,7 @@ with open("wonders_data.json") as f:
 @app.route('/')
 def home():
     # Generate the initial map without markers
-    wonder_map = folium.Map(location=[20, 0], zoom_start=2, tiles="Stamen Terrain")
+    wonder_map = folium.Map(location=[20, 0], zoom_start=2, tiles="Stamen Terrain", attr="Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.")
     wonder_map = wonder_map._repr_html_()  # Render HTML
     return render_template('index.html', map=wonder_map, wonders=wonders_data.keys())
 
