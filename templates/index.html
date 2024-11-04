@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -40,6 +40,136 @@
     </form>
     <div id="map-container">
         <iframe id="wonder-map" width="100%" height="600px"></iframe>
+    </div>
+
+    <script>
+        document.getElementById('wonder-form').onsubmit = async function(event) {
+            event.preventDefault();
+            const selectedWonder = document.getElementById('wonder').value;
+            const response = await fetch('/select_wonder', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ wonder: selectedWonder })
+            });
+            const data = await response.json();
+            document.getElementById('wonder-map').src = `data:text/html;charset=utf-8,${encodeURIComponent(data.map_html)}`;
+        };
+    </script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wonders of the World Map</title>
+    <style>
+        /* Background and Layout Styling */
+        body {
+            background-color: #333333;
+            color: #FFDD00;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin: 20px 0;
+            color: #FFDD00;
+        }
+
+        #map-container {
+            border: 3px solid #FFDD00;
+            padding: 10px;
+            margin: 0 auto;
+            width: 90%;
+            max-width: 800px;
+            background-color: #444444;
+        }
+
+        /* Form Styling */
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 1.2em;
+            margin-right: 10px;
+        }
+
+        select {
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #FFDD00;
+            background-color: #FFDD00;
+            color: #333333;
+            border-radius: 5px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            color: #333333;
+            background-color: #FFDD00;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        button:hover {
+            background-color: #e6c800;
+        }
+
+        /* iFrame Styling */
+        iframe {
+            border: 3px solid #FFDD00;
+            border-radius: 5px;
+            width: 100%;
+            height: 600px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Wonders of the World Map</h1>
+    <form id="wonder-form">
+        <label for="wonder">Select a Wonder:</label>
+        <select id="wonder" name="wonder">
+            <option value="Great Wall of China">Great Wall of China</option>
+            <option value="Petra">Petra</option>
+            <option value="Christ the Redeemer">Christ the Redeemer</option>
+            <option value="Machu Picchu">Machu Picchu</option>
+            <option value="Chichen Itza">Chichen Itza</option>
+            <option value="Colosseum">Colosseum</option>
+            <option value="Taj Mahal">Taj Mahal</option>
+            <option value="Great Pyramid of Giza">Great Pyramid of Giza</option>
+            <option value="Eiffel Tower">Eiffel Tower</option>
+            <option value="Statue of Liberty">Statue of Liberty</option>
+            <option value="Sydney Opera House">Sydney Opera House</option>
+            <option value="Mount Fuji">Mount Fuji</option>
+            <option value="Angkor Wat">Angkor Wat</option>
+            <option value="Burj Khalifa">Burj Khalifa</option>
+            <option value="Victoria Falls">Victoria Falls</option>
+            <option value="Grand Canyon">Grand Canyon</option>
+            <option value="Hagia Sophia">Hagia Sophia</option>
+            <option value="Neuschwanstein Castle">Neuschwanstein Castle</option>
+            <option value="Stonehenge">Stonehenge</option>
+            <option value="Palace of Versailles">Palace of Versailles</option>
+            <option value="Banff National Park">Banff National Park</option>
+            <option value="Santorini">Santorini</option>
+            <option value="Galápagos Islands">Galápagos Islands</option>
+            <option value="Acropolis of Athens">Acropolis of Athens</option>
+            <option value="Moai Statues of Easter Island">Moai Statues of Easter Island</option>
+        </select>
+        <button type="submit">Show Wonder</button>
+    </form>
+    <div id="map-container">
+        <iframe id="wonder-map"></iframe>
     </div>
 
     <script>
